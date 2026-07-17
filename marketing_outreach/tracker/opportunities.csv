@@ -1,0 +1,2 @@
+solicitation_number,title,buyer,source,url,deadline,questions_deadline,est_value,vertical,hook_requirement,page_ref,status,notes
+EXAMPLE-RFP-25-101,Example: Grounds Maintenance Services,City of Example RI,RIVIP,https://example.gov/bids/25-101,2026-08-07,2026-07-24,"$180,000/yr",Facilities,"Mandatory pre-bid site visit 7/28 9am; $2M aggregate GL + auto liability required at bid time",p. 4 sec 2.3,NEW,EXAMPLE ROW — delete before use. Statuses: NEW / PROSPECTED / OUTREACH_SENT / CONVERSATION / SOLD / CLOSED
