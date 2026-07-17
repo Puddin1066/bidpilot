@@ -11,9 +11,11 @@ each talk to dozens of RI firms per week who are *exactly* our customer.
 - **Who:** Rhode Island APEX Accelerator (partner program of RI Commerce),
   315 Iron Horse Way, Suite 101, Providence. Main line **401-278-9100**;
   site riapex.org.
-- **Named contacts** (verify current roles on riapex.org/contact before
-  calling): Chad Lewis, State Director (401-278-9145); Jake Bacon
-  (401-278-9133); Ann Garcia (401-278-9152); Jeff Brant (401-278-9125).
+- **Who to call first:** Jeff Brant, Senior Business Advisor – Government
+  Procurement, 401-278-9125, jeffrey.brant@commerceri.com. Escalate the
+  partnership conversation to Chad Lewis, State Director, 401-278-9145,
+  Richard.Lewis@commerceri.com. Full roster with emails in
+  `06-contact-directory.md`.
 - **What they do:** free counseling for RI firms on government contracting —
   registrations, bid match, solicitation analysis, proposal review.
 - **Positioning:** we are *complementary*, not competitive. They advise;
@@ -56,6 +58,10 @@ package is free."
   **401-874-7232** (401-874-SBDC), weekdays 8:30–4:00. Providence Metro
   office is at 315 Iron Horse Way (same building as APEX). Site:
   web.uri.edu/risbdc.
+- **Fast path:** email Susan Davis (susandavis@uri.edu — the published
+  appointment address) to book a counselor meeting; ask for whoever covers
+  government sales / revenue diversification. Director roster in
+  `06-contact-directory.md`.
 - **What they do:** free counseling on business planning, finance, marketing.
   Less procurement-specific than APEX — so pitch on the *revenue growth*
   angle, not procurement mechanics.
