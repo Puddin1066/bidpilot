@@ -1,7 +1,13 @@
 # Opportunity Sourcing
 
-Manual review only — public bid boards, no scraping, no logins required for
-viewing. Budget ~2 hours per weekly pull.
+Public bid boards only, no logins required for viewing. Budget ~2 hours per
+weekly pull.
+
+**Fast path:** `python3 scripts/pull_opportunities.py all` queries the public
+OSP search API and the RIVIP external-bid listing and prints CSV rows in the
+tracker's column format (45 live rows as of 2026-07-17). It fills numbers,
+titles, buyers, deadlines, and question cutoffs — the qualification below and
+the hook requirement still require reading the actual RFP by hand.
 
 ## Primary sources
 
