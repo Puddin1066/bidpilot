@@ -1,0 +1,5 @@
+
+# Generated demo capture intermediates
+docs/demo/video/raw/
+docs/demo/video/*.webm
+docs/demo/video/*.aiff
