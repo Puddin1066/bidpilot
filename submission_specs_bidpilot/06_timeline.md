@@ -6,18 +6,19 @@ completion **Aug 14** — never submit on deadline day.
 
 ## Week 1 — Jul 17–23: Deploy and open for business (everything else is blocked on this)
 
-- [ ] Decide hosting: **Cloud Run** (recommended — also closes the Google Cloud
-  product question) vs Vercel. Deploy production with full env vars, including
-  `SUPABASE_SERVICE_ROLE_KEY` (currently unset — checkout→job is broken without it).
-- [ ] Activate live Stripe keys in production; test one real $49 purchase end to
-  end (self-purchase → refund; never count it as revenue).
-- [ ] Ask in Devpost Discord: "Does the Gemini API alone satisfy the Google
-  Cloud product requirement?" Record the answer.
+- [x] Deploy interim production (Vercel: https://bidpilot-three.vercel.app).
+- [~] Cloud Run cutover: config ready; run `gcloud auth login` then
+  `./scripts/deploy-cloud-run.sh <PROJECT_ID>` (closes Google Cloud product gap).
+- [ ] Activate live Stripe keys in production; test one real purchase end to end
+  (self-purchase → refund; never count it as revenue).
+- [ ] Ask in Devpost Discord: Gemini API + Cloud Run vs Gemini alone; also ask
+  for the GitHub usernames to invite for private-repo review.
 - [ ] Start the Devpost submission form; copy every question verbatim into
   `04_form_answers.md`.
-- [ ] Begin outreach from `marketing_outreach/` (RI opportunities are already
-  sourced). Volume goal: first 20 contacts this week.
+- [ ] Begin outreach from `marketing_outreach/`. Volume goal: first 20 contacts.
 - [ ] Decide entity status (corporate ID question).
+- [x] Seed judge account (`judge@bidpilot.demo`) + synthetic RFP.
+- [x] Push GitHub repo: https://github.com/Puddin1066/bidpilot
 - [ ] Start weekly dated screenshots of `/xprize` and the readiness dashboard.
 
 ## Week 2 — Jul 24–30: First revenue and judge experience
