@@ -41,7 +41,8 @@ loadEnvLocal();
 async function getStatus(supabase: ReturnType<typeof createClient>, jobId: string) {
   const { data, error } = await supabase.from("jobs").select("status").eq("id", jobId).single();
   if (error) throw error;
-  return data.status as string;
+  if (!data) throw new Error(`Job ${jobId} not found`);
+  return String((data as { status: string }).status);
 }
 
 async function main() {
