@@ -1,9 +1,9 @@
 # Testing Instructions (for XPRIZE judges)
 
 BidPilot is free for judges through the judging period (September 15, 2026).
-No paywall blocks testing: with Stripe unconfigured in the judge environment,
-checkout runs in a clearly labeled MOCK PAYMENT MODE that creates jobs without
-charging, and mock purchases are excluded from revenue reporting.
+Judge and demo organizations use **complimentary checkout** even when Stripe is
+live — no charge occurs, and those jobs are never written to
+`revenue_transactions`.
 
 ## 1. Access
 

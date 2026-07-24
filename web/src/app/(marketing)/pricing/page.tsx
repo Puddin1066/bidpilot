@@ -18,7 +18,7 @@ export default function PricingPage() {
         implementation project. Subscriptions come later, if you want them.
       </p>
 
-      <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {fixedFee.map((p) => (
           <div
             key={p.type}
@@ -47,12 +47,18 @@ export default function PricingPage() {
                 </li>
               ))}
             </ul>
-            <Link
-              href={`/checkout?product=${p.type}`}
-              className="mt-6 rounded-lg bg-blue-600 py-2 text-center text-sm font-semibold text-white hover:bg-blue-700"
-            >
-              Buy {p.name}
-            </Link>
+            {p.automated ? (
+              <Link
+                href={`/checkout?product=${p.type}`}
+                className="mt-6 rounded-lg bg-blue-600 py-2 text-center text-sm font-semibold text-white hover:bg-blue-700"
+              >
+                Buy {p.name}
+              </Link>
+            ) : (
+              <span className="mt-6 rounded-lg border border-slate-300 py-2 text-center text-sm text-slate-500">
+                Coming next
+              </span>
+            )}
           </div>
         ))}
       </div>
@@ -62,7 +68,7 @@ export default function PricingPage() {
       </h2>
       <div className="mt-6 mx-auto max-w-md">
         {subscriptions.map((p) => (
-          <div key={p.type} className="rounded-xl border border-slate-200 p-6">
+          <div key={p.type} className="rounded-xl border border-dashed border-slate-200 bg-slate-50 p-6">
             <h3 className="font-semibold text-slate-900">{p.name}</h3>
             <div className="mt-2 text-3xl font-bold text-slate-900">
               {formatPrice(p.priceCents)}
@@ -76,12 +82,9 @@ export default function PricingPage() {
                 </li>
               ))}
             </ul>
-            <Link
-              href={`/checkout?product=${p.type}`}
-              className="mt-6 block rounded-lg border border-blue-600 py-2 text-center text-sm font-semibold text-blue-600 hover:bg-blue-50"
-            >
-              Start monitoring
-            </Link>
+            <span className="mt-6 block rounded-lg border border-slate-300 py-2 text-center text-sm text-slate-500">
+              Coming next
+            </span>
           </div>
         ))}
       </div>

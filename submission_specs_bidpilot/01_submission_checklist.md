@@ -25,9 +25,9 @@ Statuses reflect the repo as of **Jul 17, 2026**. Update as work lands.
   https://bidpilot-three.vercel.app (interim). Cloud Run Dockerfile + deploy
   script ready for the Google Cloud product requirement — blocked only on
   `gcloud auth login`, then `./scripts/deploy-cloud-run.sh <PROJECT_ID>`.
-- [ ] **Live Stripe keys** in production — **intentionally deferred**. Product
-  ships in labeled MOCK PAYMENT MODE until credentials are provided after
-  product completion. Mock purchases never enter arms-length revenue.
+- [x] **Live Stripe keys** — restricted `bidpilot_stripe` + webhook on Vercel.
+  Judge/demo orgs keep complimentary free checkout (no revenue row).
+  Still do: self-purchase→refund smoke test; rotate key (exposed in chat).
 - [x] **Seed judge account.** Done Jul 24: `judge@bidpilot.demo`, demo org,
   approved profile, 5 evidence items, `judge_accounts` row. Credentials in
   `submission_specs_bidpilot/.private-judge-credentials.txt` (gitignored).

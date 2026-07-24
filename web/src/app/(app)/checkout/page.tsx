@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { requireOrganization } from "@/lib/auth";
+import { requireOrganization, isComplimentaryCheckout } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { getStripe } from "@/lib/stripe";
 import { getProduct, formatPrice } from "@/lib/products";
@@ -11,8 +11,12 @@ export const metadata: Metadata = { title: "Checkout" };
 async function startStripeCheckout(formData: FormData) {
   "use server";
   const session = await requireOrganization();
+  // Judges / demo orgs never go through live Stripe.
+  if (isComplimentaryCheckout(session)) {
+    redirect(`/checkout?product=${String(formData.get("product"))}`);
+  }
   const product = getProduct(String(formData.get("product")));
-  if (!product) redirect("/pricing");
+  if (!product || !product.automated) redirect("/jobs/new");
 
   const stripe = getStripe();
   const checkout = await stripe.checkout.sessions.create({
@@ -45,8 +49,12 @@ async function createMockPaidJob(formData: FormData) {
   const product = getProduct(String(formData.get("product")));
   if (!product || !product.automated) redirect("/jobs/new");
 
-  // MOCK PAYMENT MODE: no charge occurs and no revenue transaction is
-  // recorded, so mock checkouts can never appear in arms-length revenue.
+  // Allowed when Stripe is unset (dev) OR for complimentary judge/demo orgs.
+  // Never records a revenue_transactions row.
+  if (!isMockPaymentMode() && !isComplimentaryCheckout(session)) {
+    redirect(`/checkout?product=${product.type}`);
+  }
+
   const supabase = await createClient();
   const { data: job, error } = await supabase
     .from("jobs")
@@ -69,13 +77,15 @@ export default async function CheckoutPage({
 }: {
   searchParams: Promise<{ product?: string }>;
 }) {
-  await requireOrganization();
+  const session = await requireOrganization();
   const params = await searchParams;
   const product = getProduct(params.product ?? "");
   if (!product) redirect("/pricing");
   if (!product.automated) redirect("/jobs/new");
 
-  const mock = isMockPaymentMode();
+  const complimentary = isComplimentaryCheckout(session);
+  const mockEnv = isMockPaymentMode();
+  const freeCheckout = mockEnv || complimentary;
 
   return (
     <div className="mx-auto max-w-md py-10">
@@ -98,12 +108,21 @@ export default async function CheckoutPage({
           ))}
         </ul>
 
-        {mock ? (
+        {freeCheckout ? (
           <>
             <div className="mt-6 rounded-lg bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-900">
-              <strong>MOCK PAYMENT MODE:</strong> Stripe is not configured. No
-              charge will occur, and this purchase is excluded from revenue
-              reporting.
+              {complimentary ? (
+                <>
+                  <strong>XPRIZE judge / demo access:</strong> no charge. This
+                  job is excluded from arms-length revenue reporting.
+                </>
+              ) : (
+                <>
+                  <strong>MOCK PAYMENT MODE:</strong> Stripe is not configured. No
+                  charge will occur, and this purchase is excluded from revenue
+                  reporting.
+                </>
+              )}
             </div>
             <form action={createMockPaidJob} className="mt-4">
               <input type="hidden" name="product" value={product.type} />
@@ -111,7 +130,7 @@ export default async function CheckoutPage({
                 type="submit"
                 className="w-full rounded-lg bg-blue-600 py-2.5 font-semibold text-white hover:bg-blue-700"
               >
-                Continue without payment (mock)
+                {complimentary ? "Continue free (judge access)" : "Continue without payment (mock)"}
               </button>
             </form>
           </>

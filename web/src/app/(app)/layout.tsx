@@ -22,6 +22,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const mockBanners: string[] = [];
   if (isMockAiMode()) mockBanners.push("MOCK AI MODE — GEMINI_API_KEY not configured; agent outputs are labeled fixtures, not production AI.");
   if (isMockPaymentMode()) mockBanners.push("MOCK PAYMENT MODE — STRIPE_SECRET_KEY not configured; checkout creates jobs without charging.");
+  else if (session.isDemoOrganization || session.isJudgeMember) {
+    mockBanners.push("XPRIZE JUDGE / DEMO ACCESS — checkout is free for this account; purchases are excluded from arms-length revenue.");
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">

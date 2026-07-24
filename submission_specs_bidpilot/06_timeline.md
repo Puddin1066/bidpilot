@@ -9,8 +9,11 @@ completion **Aug 14** — never submit on deadline day.
 - [x] Deploy interim production (Vercel: https://bidpilot-three.vercel.app).
 - [~] Cloud Run cutover: config ready; run `gcloud auth login` then
   `./scripts/deploy-cloud-run.sh <PROJECT_ID>` (closes Google Cloud product gap).
-- [ ] Activate live Stripe keys in production; test one real purchase end to end
-  (self-purchase → refund; never count it as revenue).
+- [x] Activate live Stripe keys in production (restricted key + webhook).
+  Judge/demo orgs keep free complimentary checkout (no revenue row).
+- [ ] Self-purchase $149 Bid/No-Bid → refund once to prove webhook→job loop
+  (mark related-party; do not count as competition revenue).
+- [ ] Rotate `bidpilot_stripe` restricted key (was pasted in chat); swap in Vercel.
 - [ ] Ask in Devpost Discord: Gemini API + Cloud Run vs Gemini alone; also ask
   for the GitHub usernames to invite for private-repo review.
 - [ ] Start the Devpost submission form; copy every question verbatim into
