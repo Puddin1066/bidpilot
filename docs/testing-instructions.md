@@ -7,8 +7,15 @@ charging, and mock purchases are excluded from revenue reporting.
 
 ## 1. Access
 
-- Application URL: (deployed URL — see private submission notes)
-- Judge credentials: (provided in the private submission notes)
+- Application URL: https://bidpilot-three.vercel.app
+  (Cloud Run production URL TBD after `gcloud auth login` — see `docs/deploy-cloud-run.md`)
+- Judge credentials: `judge@bidpilot.demo` / (password in
+  `submission_specs_bidpilot/.private-judge-credentials.txt` — gitignored;
+  paste into private Devpost submission notes only)
+- Repository: https://github.com/Puddin1066/bidpilot
+  - Private; invite Devpost/Hacker Fund GitHub accounts before submission
+    (email addresses alone cannot be collaborators — use their GitHub usernames, or
+    temporarily make the repo public for judging).
 - The judge account is scoped to a synthetic demonstration organization with a
   fictional company profile and a synthetic RFP. No customer-confidential data
   is accessible.
@@ -23,8 +30,9 @@ charging, and mock purchases are excluded from revenue reporting.
    drafts.
 4. **New job** (`/jobs/new`) — select the 48-Hour RFP Readiness Package and
    complete checkout (mock mode, no charge).
-5. **Intake** — paste any RFP text or upload a PDF. Analysis starts
-   immediately.
+5. **Intake** — paste the contents of
+   `docs/demo/synthetic-rfp-ocean-state-training.md` or upload it as a file.
+   Analysis starts immediately.
 6. **Job workspace** — watch the job advance: parsing → eligibility →
    bid/no-bid decision (with nine factor scores) → your approval gate →
    compliance matrix → strategy → drafting → claim verification → compliance
@@ -41,6 +49,7 @@ charging, and mock purchases are excluded from revenue reporting.
 cd web
 npm install
 cp .env.example .env.local   # fill in Supabase URL + anon key at minimum
+npm run seed:judge           # requires SUPABASE_SERVICE_ROLE_KEY
 npm run dev
 ```
 
@@ -49,6 +58,9 @@ committed). Database migrations are in `web/supabase/migrations/` and apply in
 filename order. The app degrades gracefully: without `GEMINI_API_KEY` it runs
 in labeled MOCK AI MODE; without Stripe keys it runs in labeled MOCK PAYMENT
 MODE.
+
+Cloud Run deploy: see `docs/deploy-cloud-run.md` and
+`./scripts/deploy-cloud-run.sh`.
 
 ## 4. Verification
 

@@ -63,12 +63,14 @@ wording and any questions not previewed here, then adapt. Replace all
 > SDK) as the production workforce of the business: eight distinct agents with
 > structured JSON output (`responseJsonSchema`), schema validation, and
 > automatic retry-with-error-feedback, including multimodal PDF ingestion of
-> solicitations.
+> solicitations. Production hosting is prepared for **Google Cloud Run**
+> (`web/Dockerfile`, `scripts/deploy-cloud-run.sh`); interim URL is on Vercel
+> until Cloud Run is authenticated and cut over.
 
-If we add Cloud Run hosting or Vertex AI routing (recommended de-risk), append:
+If Cloud Run is live, use:
 
-> The application is deployed on **Cloud Run** [or: Gemini calls are served
-> through **Vertex AI**], which runs the production pipeline end to end.
+> The application is deployed on **Google Cloud Run**, which runs the
+> production Next.js pipeline end to end. Gemini API powers every agent call.
 
 ## 5. How the Gemini API is used for at least one LLM call
 
@@ -101,11 +103,12 @@ If we add Cloud Run hosting or Vertex AI routing (recommended de-risk), append:
 
 ## 8. Repo and testing access (private submission notes)
 
-> Repository: [PLACEHOLDER: GitHub URL] — shared with testing@devpost.com and
-> judging@hacker.fund [if private].
-> Application: [PLACEHOLDER: production URL]
-> Judge credentials: [PLACEHOLDER — seeded judge account, synthetic org,
-> mock-payment path so judges are never charged].
+> Repository: https://github.com/Puddin1066/bidpilot — invite judge GitHub
+> usernames (or make public) [if private].
+> Application: https://bidpilot-three.vercel.app
+> (Cloud Run URL after `gcloud auth login` + `./scripts/deploy-cloud-run.sh`)
+> Judge credentials: judge@bidpilot.demo / (see
+> submission_specs_bidpilot/.private-judge-credentials.txt)
 > Full walkthrough: `docs/testing-instructions.md` in the repo.
 > Free judge access guaranteed through September 15, 2026. Verification
 > requests answered within two business days via /admin/xprize-readiness exports.

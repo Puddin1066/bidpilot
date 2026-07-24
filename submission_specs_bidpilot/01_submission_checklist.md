@@ -9,10 +9,9 @@ Statuses reflect the repo as of **Jul 17, 2026**. Update as work lands.
   state machine in `web/src/lib/pipeline.ts`) makes eligibility, bid/no-bid, and
   quality-routing decisions autonomously. Needs: real production runs (Gemini key is
   set, but jobs must flow end-to-end in a deployed environment).
-- [~] **At least one Google Cloud product.** Currently Gemini API only.
-  **ACTION (de-risk):** confirm in Devpost Discord/FAQ whether Gemini API alone
-  satisfies "Google Cloud product," AND/OR deploy on **Cloud Run** or route Gemini
-  through **Vertex AI** so the answer is unambiguous.
+- [~] **At least one Google Cloud product.** Gemini API + Cloud Run config ready
+  (`web/Dockerfile`, `scripts/deploy-cloud-run.sh`, `docs/deploy-cloud-run.md`).
+  **ACTION:** run `gcloud auth login`, then `./scripts/deploy-cloud-run.sh <PROJECT_ID>`.
 - [x] **Gemini API for at least one LLM call.** `gemini-2.5-flash` via `@google/genai`
   in `web/src/lib/ai/gemini.ts`; every call logged to `agent_runs`.
 - [x] **Category selected.** Small Business Services (per README and spec).
@@ -22,22 +21,24 @@ Statuses reflect the repo as of **Jul 17, 2026**. Update as work lands.
 
 ## 2. Deployment and access (blocking nearly everything else)
 
-- [ ] **Deploy to production.** No hosting config exists. Decide Vercel vs **Cloud Run**
-  (Cloud Run also closes the Google Cloud gap). Set all env vars including
-  `SUPABASE_SERVICE_ROLE_KEY` (currently unset — breaks checkout→job even locally).
-- [ ] **Live Stripe keys** in production; keep a separate judge environment (or judge
-  account path) in MOCK PAYMENT MODE so judges are never charged.
-- [ ] **Seed judge account** with synthetic org, fictional company profile, synthetic
-  RFP, and approved evidence (spec Prompt 14). Fill in the URL + credentials
-  placeholders in `docs/testing-instructions.md`.
+- [~] **Deploy to production.** Live now on Vercel:
+  https://bidpilot-three.vercel.app (interim). Cloud Run Dockerfile + deploy
+  script ready for the Google Cloud product requirement — blocked only on
+  `gcloud auth login`, then `./scripts/deploy-cloud-run.sh <PROJECT_ID>`.
+- [ ] **Live Stripe keys** in production; keep judge path in MOCK PAYMENT MODE
+  so judges are never charged (judge purchases use `MOCK-*` payment ids).
+- [x] **Seed judge account.** Done Jul 24: `judge@bidpilot.demo`, demo org,
+  approved profile, 5 evidence items, `judge_accounts` row. Credentials in
+  `submission_specs_bidpilot/.private-judge-credentials.txt` (gitignored).
+  Synthetic RFP: `docs/demo/synthetic-rfp-ocean-state-training.md`.
 - [ ] **App stays up through Sep 15, 2026** (judging period) with buffer.
 
 ## 3. Devpost form artifacts
 
-- [ ] **GitHub repo link.** The local repo has **no remote configured** — it is not
-  on GitHub at all yet (verified Jul 17). **ACTION:** create the GitHub repo, push,
-  and if private, share with `testing@devpost.com` and `judging@hacker.fund`.
-  Repo contents are otherwise ready (migrations, `.env.example`, setup docs).
+- [~] **GitHub repo link.** https://github.com/Puddin1066/bidpilot (private,
+  pushed Jul 24). **ACTION:** invite Devpost/Hacker Fund **GitHub usernames**
+  (email addresses alone cannot be collaborators), or make the repo public for
+  judging. Confirm usernames in Discord/FAQ.
 - [ ] **3-minute video** — script in `03_video_script.md`. Record in production (not
   mock mode) using the synthetic RFP. Host public on YouTube/Vimeo. **Upload early**
   (processing can take hours).

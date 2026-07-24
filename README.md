@@ -38,6 +38,7 @@ pricing, certifications, and final submission.
 - Gemini API (`gemini-2.5-flash`) via `@google/genai`
 - Stripe Checkout + webhooks for payments
 - Resend for email (optional)
+- Google Cloud Run for production hosting (see `docs/deploy-cloud-run.md`)
 
 ## Local setup
 
@@ -50,6 +51,16 @@ npm run dev                  # http://localhost:3000
 
 Migrations live in `web/supabase/migrations/` and apply in filename order
 (Supabase CLI: `supabase db push`, or the Supabase MCP/SQL editor).
+
+Judge demo seed (synthetic org + approved evidence):
+
+```bash
+cd web
+# requires SUPABASE_SERVICE_ROLE_KEY in .env.local
+npm run seed:judge
+```
+
+See `docs/judge-seed.md` and `docs/demo/synthetic-rfp-ocean-state-training.md`.
 
 ### Mock modes (clearly labeled, never counted as production evidence)
 

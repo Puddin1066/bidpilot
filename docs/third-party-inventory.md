@@ -9,7 +9,8 @@ Reviewed: 2026-07-17.
 | Supabase (PostgreSQL, Auth, Storage) | Database, authentication, private file storage | https://supabase.com/terms | Customer retains ownership of data | N/A | No |
 | Stripe | Payments (Checkout, webhooks) | https://stripe.com/legal/ssa | Payment records retained per Stripe policy | N/A | No |
 | Resend | Transactional email | https://resend.com/legal/terms-of-service | Email metadata only | N/A | No |
-| Vercel | Web hosting | https://vercel.com/legal/terms | N/A | N/A | No |
+| Google Cloud Run | Production web hosting (XPRIZE Google Cloud product) | https://cloud.google.com/terms | N/A | N/A | No |
+| Vercel | Optional preview hosting | https://vercel.com/legal/terms | N/A | N/A | No |
 | Next.js / React / Tailwind CSS | Web framework and styling | MIT | N/A | Yes (MIT) | No |
 | zod | Validation | MIT | N/A | Yes (MIT) | No |
 | Geist fonts | Typography | SIL OFL 1.1 | N/A | Yes (OFL) | No |
