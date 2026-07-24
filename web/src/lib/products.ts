@@ -111,6 +111,23 @@ export function getProduct(type: string): Product | undefined {
   return PRODUCTS.find((p) => p.type === type);
 }
 
+/** First-5 RI founding offer — used when checkout?promo=founding */
+export const FOUNDING_PROMO_CODE = "founding";
+export const FOUNDING_READINESS_PRICE_CENTS = 19900;
+
+export function resolveCheckoutPriceCents(
+  product: Product,
+  promo: string | null | undefined
+): { priceCents: number; isFounding: boolean } {
+  if (
+    promo === FOUNDING_PROMO_CODE &&
+    product.type === "READINESS_PACKAGE"
+  ) {
+    return { priceCents: FOUNDING_READINESS_PRICE_CENTS, isFounding: true };
+  }
+  return { priceCents: product.priceCents, isFounding: false };
+}
+
 export function formatPrice(cents: number): string {
   return `$${(cents / 100).toLocaleString("en-US", {
     minimumFractionDigits: cents % 100 === 0 ? 0 : 2,
