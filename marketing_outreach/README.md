@@ -33,6 +33,8 @@ Opportunity discovered        (tracker/opportunities.csv)
 | `04-call-scripts.md` | RI APEX Accelerator and RISBDC referral calls; warm-prospect call script |
 | `05-founding-customer-offer.md` | The founding-customer offer and the value math |
 | `06-contact-directory.md` | Verified names, emails, and phones for APEX, SBDC, SBA, CWE, SCORE |
+| `07-day0-launch-revenue.md` | **Next 24 hours:** live URL, Stripe checklist, hour-by-hour revenue plan |
+| `day0-send-queue.md` | Copy-paste emails for today's hottest deadlines + founding $199 link |
 | `tracker/opportunities.csv` | Opportunity log (one row per solicitation) — seeded with 13 live opportunities pulled 2026-07-17 |
 | `tracker/prospects.csv` | Prospect log (one row per vendor contact) — seeded with 25+ mapped vendors |
 | `scripts/pull_opportunities.py` | Pulls live OSP + RIVIP solicitations into tracker-format CSV |
