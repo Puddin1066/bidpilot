@@ -17,6 +17,7 @@ official rules as captured in `../BidPilot_XPRIZE_Rules_Aligned_Spec.md`
 | `04_form_answers.md` | Drafted answers to the Devpost form questions |
 | `05_evidence_pack.md` | How to assemble revenue, expense, product, and customer evidence |
 | `06_timeline.md` | Week-by-week execution plan from now to Aug 17 |
+| `07_credentials_posture.md` | MOCK keys until product complete; flip rules for live Stripe |
 
 ## Ground rules (from the official rules)
 

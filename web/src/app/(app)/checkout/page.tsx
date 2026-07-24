@@ -43,7 +43,7 @@ async function createMockPaidJob(formData: FormData) {
   "use server";
   const session = await requireOrganization();
   const product = getProduct(String(formData.get("product")));
-  if (!product) redirect("/pricing");
+  if (!product || !product.automated) redirect("/jobs/new");
 
   // MOCK PAYMENT MODE: no charge occurs and no revenue transaction is
   // recorded, so mock checkouts can never appear in arms-length revenue.
@@ -73,6 +73,7 @@ export default async function CheckoutPage({
   const params = await searchParams;
   const product = getProduct(params.product ?? "");
   if (!product) redirect("/pricing");
+  if (!product.automated) redirect("/jobs/new");
 
   const mock = isMockPaymentMode();
 

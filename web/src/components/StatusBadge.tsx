@@ -16,6 +16,7 @@ const STATUS_STYLES: Record<string, string> = {
   COMPLETED: "bg-emerald-50 text-emerald-700",
   OUTCOME_PENDING: "bg-slate-100 text-slate-600",
   FAILED: "bg-red-50 text-red-700",
+  PIPELINE_FAILED: "bg-red-50 text-red-700",
 };
 
 export default function StatusBadge({ status }: { status: string }) {

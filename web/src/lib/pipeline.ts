@@ -140,12 +140,35 @@ export async function runPipeline(
   jobId: string
 ): Promise<PipelineOutcome[]> {
   const outcomes: PipelineOutcome[] = [];
-  for (let i = 0; i < 10; i++) {
-    const job = await getJob(supabase, jobId);
-    if (!(AUTO_STATUSES as readonly string[]).includes(job.status)) break;
-    outcomes.push(await advanceJob(supabase, jobId));
+  try {
+    for (let i = 0; i < 10; i++) {
+      const job = await getJob(supabase, jobId);
+      if (!(AUTO_STATUSES as readonly string[]).includes(job.status)) break;
+      outcomes.push(await advanceJob(supabase, jobId));
+    }
+  } catch (err) {
+    // Leave a recoverable terminal status so the UI can offer Retry instead of
+    // permanently stuck mid-stage (e.g. PARSING after a timeout).
+    await setStatus(supabase, jobId, "PIPELINE_FAILED");
+    throw err;
   }
   return outcomes;
+}
+
+/** Reset a failed or stuck mid-parse job and re-run automatic stages. */
+export async function retryPipeline(
+  supabase: SupabaseClient,
+  jobId: string
+): Promise<PipelineOutcome[]> {
+  const job = await getJob(supabase, jobId);
+  if (!["PIPELINE_FAILED", "PARSING"].includes(job.status)) {
+    throw new Error(`Cannot retry from status ${job.status}`);
+  }
+  if (!job.solicitation_id) {
+    throw new Error("No solicitation on this job — re-submit intake first.");
+  }
+  await setStatus(supabase, jobId, "DOCUMENTS_UPLOADED");
+  return runPipeline(supabase, jobId);
 }
 
 // ---------------------------------------------------------------------------

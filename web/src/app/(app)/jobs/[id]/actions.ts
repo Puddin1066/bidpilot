@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createHash } from "crypto";
 import { requireOrganization } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
-import { runPipeline } from "@/lib/pipeline";
+import { runPipeline, retryPipeline as retryPipelineCore } from "@/lib/pipeline";
 
 async function getOwnedJob(jobId: string) {
   const session = await requireOrganization();
@@ -19,7 +19,20 @@ async function getOwnedJob(jobId: string) {
   return { session, supabase, job };
 }
 
-/** Intake: store solicitation text and/or PDF, then run the pipeline. */
+const TEXT_MIME = new Set([
+  "text/plain",
+  "text/markdown",
+  "text/x-markdown",
+  "application/octet-stream", // browsers often send this for .md
+]);
+
+function isTextUpload(file: File): boolean {
+  const name = file.name.toLowerCase();
+  if (name.endsWith(".md") || name.endsWith(".txt") || name.endsWith(".text")) return true;
+  return TEXT_MIME.has(file.type) && !name.endsWith(".pdf") && !name.endsWith(".docx");
+}
+
+/** Intake: store solicitation text and/or file, then run the pipeline. */
 export async function submitIntake(formData: FormData): Promise<void> {
   const jobId = String(formData.get("job_id"));
   const { session, supabase, job } = await getOwnedJob(jobId);
@@ -27,11 +40,18 @@ export async function submitIntake(formData: FormData): Promise<void> {
     throw new Error("Job is not awaiting intake");
   }
 
-  const rawText = String(formData.get("solicitation_text") ?? "").trim();
+  let rawText = String(formData.get("solicitation_text") ?? "").trim();
   const file = formData.get("solicitation_file") as File | null;
   const deadline = String(formData.get("deadline") ?? "").trim();
   if (!rawText && (!file || file.size === 0)) {
-    throw new Error("Provide the solicitation as pasted text or a PDF upload.");
+    throw new Error("Provide the solicitation as pasted text or a PDF/Markdown/TXT upload.");
+  }
+
+  // Text uploads (including the synthetic demo .md) become pasted text for the parser.
+  if (file && file.size > 0 && isTextUpload(file)) {
+    if (file.size > 20 * 1024 * 1024) throw new Error("File exceeds the 20 MB limit.");
+    const fileText = (await file.text()).trim();
+    rawText = rawText ? `${rawText}\n\n${fileText}` : fileText;
   }
 
   // Create the solicitation record.
@@ -46,22 +66,19 @@ export async function submitIntake(formData: FormData): Promise<void> {
     .single();
   if (solError) throw new Error(solError.message);
 
-  // Store the uploaded file privately, if provided.
-  if (file && file.size > 0) {
+  // Store binary uploads (PDF) privately. Text files are already in raw_text.
+  if (file && file.size > 0 && !isTextUpload(file)) {
     if (file.size > 20 * 1024 * 1024) throw new Error("File exceeds the 20 MB limit.");
-    const allowed = [
-      "application/pdf",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    ];
-    if (!allowed.includes(file.type)) {
-      throw new Error("Only PDF and DOCX files are accepted.");
+    const allowed = ["application/pdf"];
+    if (!allowed.includes(file.type) && !file.name.toLowerCase().endsWith(".pdf")) {
+      throw new Error("Accepted uploads: PDF, Markdown (.md), or plain text (.txt).");
     }
     const bytes = Buffer.from(await file.arrayBuffer());
     const sha256 = createHash("sha256").update(bytes).digest("hex");
     const storagePath = `${session.organizationId}/${jobId}/${Date.now()}-${file.name}`;
     const { error: uploadError } = await supabase.storage
       .from("documents")
-      .upload(storagePath, bytes, { contentType: file.type });
+      .upload(storagePath, bytes, { contentType: "application/pdf" });
     if (uploadError) throw new Error(`Upload failed: ${uploadError.message}`);
 
     const { error: docError } = await supabase.from("documents").insert({
@@ -70,7 +87,7 @@ export async function submitIntake(formData: FormData): Promise<void> {
       document_type: "SOLICITATION",
       filename: file.name,
       storage_path: storagePath,
-      mime_type: file.type,
+      mime_type: "application/pdf",
       sha256,
       processing_status: "UPLOADED",
     });
@@ -83,7 +100,23 @@ export async function submitIntake(formData: FormData): Promise<void> {
     .eq("id", jobId);
   if (jobError) throw new Error(jobError.message);
 
-  await runPipeline(supabase, jobId);
+  try {
+    await runPipeline(supabase, jobId);
+  } catch {
+    // Status already set to PIPELINE_FAILED inside runPipeline; surface via UI.
+  }
+  revalidatePath(`/jobs/${jobId}`);
+}
+
+/** Retry after PIPELINE_FAILED or a stuck PARSING status. */
+export async function retryPipeline(formData: FormData): Promise<void> {
+  const jobId = String(formData.get("job_id"));
+  const { supabase } = await getOwnedJob(jobId);
+  try {
+    await retryPipelineCore(supabase, jobId);
+  } catch {
+    // PIPELINE_FAILED already set; job page shows retry again.
+  }
   revalidatePath(`/jobs/${jobId}`);
 }
 
@@ -115,7 +148,11 @@ export async function approveContinuation(formData: FormData): Promise<void> {
   if (job.status !== "BID_DECISION_READY") throw new Error("Job is not at the bid decision gate");
 
   await supabase.from("jobs").update({ status: "COMPLIANCE_MAPPING" }).eq("id", jobId);
-  await runPipeline(supabase, jobId);
+  try {
+    await runPipeline(supabase, jobId);
+  } catch {
+    /* PIPELINE_FAILED */
+  }
   revalidatePath(`/jobs/${jobId}`);
 }
 
@@ -162,7 +199,11 @@ export async function resolveException(formData: FormData): Promise<void> {
   if (error) throw new Error(error.message);
 
   await supabase.from("jobs").update({ status: "READY_FOR_DELIVERY" }).eq("id", jobId);
-  await runPipeline(supabase, jobId);
+  try {
+    await runPipeline(supabase, jobId);
+  } catch {
+    /* PIPELINE_FAILED */
+  }
   revalidatePath(`/jobs/${jobId}`);
 }
 
@@ -197,7 +238,11 @@ export async function requestRevision(formData: FormData): Promise<void> {
     });
   }
   await supabase.from("jobs").update({ status: "DRAFTING" }).eq("id", jobId);
-  await runPipeline(supabase, jobId);
+  try {
+    await runPipeline(supabase, jobId);
+  } catch {
+    /* PIPELINE_FAILED */
+  }
   revalidatePath(`/jobs/${jobId}`);
 }
 

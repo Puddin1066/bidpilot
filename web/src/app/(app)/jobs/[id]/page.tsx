@@ -14,7 +14,9 @@ import {
   requestRevision,
   acceptDelivery,
   recordOutcome,
+  retryPipeline,
 } from "./actions";
+import PipelineAutoRefresh from "@/components/PipelineAutoRefresh";
 
 export const maxDuration = 300;
 
@@ -122,8 +124,10 @@ export default async function JobPage({ params }: { params: Promise<{ id: string
         <section className="mt-8 rounded-xl border border-blue-200 bg-blue-50 p-6">
           <h2 className="font-semibold text-slate-900">Upload your solicitation</h2>
           <p className="mt-1 text-sm text-slate-600">
-            Paste the solicitation text and/or attach the PDF. Analysis starts
-            immediately after submission and may take a few minutes.
+            Paste the solicitation text and/or upload a PDF or Markdown/TXT file.
+            Analysis starts immediately after submission and may take a few minutes.
+            Judges: use{" "}
+            <code className="rounded bg-white px-1 text-xs">docs/demo/synthetic-rfp-ocean-state-training.md</code>.
           </p>
           <form action={submitIntake} className="mt-4 space-y-4">
             <input type="hidden" name="job_id" value={job.id} />
@@ -142,13 +146,13 @@ export default async function JobPage({ params }: { params: Promise<{ id: string
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor="solicitation_file" className="block text-sm font-medium text-slate-700">
-                  Or upload PDF/DOCX (max 20 MB)
+                  Or upload PDF / Markdown / TXT (max 20 MB)
                 </label>
                 <input
                   id="solicitation_file"
                   name="solicitation_file"
                   type="file"
-                  accept=".pdf,.docx"
+                  accept=".pdf,.md,.txt,text/plain,text/markdown"
                   className="mt-1 w-full text-sm"
                 />
               </div>
@@ -169,6 +173,27 @@ export default async function JobPage({ params }: { params: Promise<{ id: string
               className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
             >
               Submit and start analysis
+            </button>
+          </form>
+        </section>
+      )}
+
+      {/* PIPELINE FAILURE / RETRY */}
+      {(job.status === "PIPELINE_FAILED" || job.status === "PARSING") && (
+        <section className="mt-8 rounded-xl border border-rose-200 bg-rose-50 p-6">
+          <h2 className="font-semibold text-slate-900">
+            {job.status === "PARSING" ? "Analysis still running or interrupted" : "Analysis failed"}
+          </h2>
+          <p className="mt-1 text-sm text-slate-600">
+            You can retry without re-uploading. Check the agent audit log below for details.
+          </p>
+          <form action={retryPipeline} className="mt-4">
+            <input type="hidden" name="job_id" value={job.id} />
+            <button
+              type="submit"
+              className="rounded-lg bg-rose-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-rose-800"
+            >
+              Retry analysis
             </button>
           </form>
         </section>
@@ -636,12 +661,21 @@ export default async function JobPage({ params }: { params: Promise<{ id: string
       )}
 
       {/* Pipeline running hint */}
+      <PipelineAutoRefresh
+        active={["PARSING", "ELIGIBILITY_REVIEW", "COMPLIANCE_MAPPING", "DRAFTING", "QUALITY_REVIEW", "DOCUMENTS_UPLOADED"].includes(
+          job.status
+        )}
+      />
       {["PARSING", "ELIGIBILITY_REVIEW", "COMPLIANCE_MAPPING", "DRAFTING", "QUALITY_REVIEW", "DOCUMENTS_UPLOADED"].includes(
         job.status
       ) && (
         <div className="mt-8 rounded-xl border border-slate-200 bg-white p-6 text-center text-sm text-slate-600">
-          The pipeline is processing this stage. Refresh the page for the latest
-          status.
+          The pipeline is processing this stage. This page refreshes automatically.
+          {job.status === "PARSING" && (
+            <span className="mt-2 block text-slate-500">
+              If this stays on Parsing for several minutes, use Retry analysis above.
+            </span>
+          )}
         </div>
       )}
     </div>

@@ -31,12 +31,14 @@ charging, and mock purchases are excluded from revenue reporting.
 4. **New job** (`/jobs/new`) — select the 48-Hour RFP Readiness Package and
    complete checkout (mock mode, no charge).
 5. **Intake** — paste the contents of
-   `docs/demo/synthetic-rfp-ocean-state-training.md` or upload it as a file.
-   Analysis starts immediately.
+   `docs/demo/synthetic-rfp-ocean-state-training.md` **or upload that `.md`
+   file** (PDF also accepted). Analysis starts immediately.
 6. **Job workspace** — watch the job advance: parsing → eligibility →
-   bid/no-bid decision (with nine factor scores) → your approval gate →
-   compliance matrix → strategy → drafting → claim verification → compliance
-   review → delivery.
+   (optional clarification if evidence is incomplete) → bid/no-bid decision
+   (with nine factor scores) → your approval gate → compliance matrix →
+   strategy → drafting → claim verification → compliance review → delivery.
+   The page auto-refreshes while processing; if analysis fails, use
+   **Retry analysis**.
 7. **Audit log** — at the bottom of the job page, every Gemini call is logged
    with model, prompt version, tokens, cost, duration, and confidence. Runs
    without a production Gemini key are explicitly labeled MOCKED.
