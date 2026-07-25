@@ -64,6 +64,26 @@ async function setStatus(supabase: SupabaseClient, jobId: string, status: string
   if (error) throw new Error(`Failed to set status: ${error.message}`);
 }
 
+/**
+ * Gemini often returns human-readable deadlines ("August 8, 2026, 5:00 PM ET").
+ * Postgres timestamptz needs ISO; unparseable values become null rather than failing the job.
+ */
+function normalizeTimestamptz(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  const asDate = new Date(trimmed);
+  if (!Number.isNaN(asDate.getTime())) return asDate.toISOString();
+  // Strip common timezone labels Gemini emits, then retry.
+  const cleaned = trimmed
+    .replace(/\b(ET|EST|EDT|PT|PST|PDT|CT|CST|CDT|MT|MST|MDT)\b/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  const retry = new Date(cleaned);
+  if (!Number.isNaN(retry.getTime())) return retry.toISOString();
+  return null;
+}
+
 async function getApprovedEvidence(
   supabase: SupabaseClient,
   organizationId: string
@@ -217,8 +237,14 @@ async function parseStage(supabase: SupabaseClient, job: JobRow): Promise<Pipeli
       title: parsed.title,
       buyer: parsed.buyer,
       solicitation_number: parsed.solicitation_number,
-      deadline: parsed.deadline,
-      structured_data: { ...parsed, raw_text: pastedText || undefined },
+      deadline: normalizeTimestamptz(parsed.deadline),
+      structured_data: {
+        ...parsed,
+        deadline: normalizeTimestamptz(parsed.deadline) ?? parsed.deadline,
+        questions_deadline:
+          normalizeTimestamptz(parsed.questions_deadline) ?? parsed.questions_deadline,
+        raw_text: pastedText || undefined,
+      },
     })
     .eq("id", sol.id);
   if (updateError) throw new Error(updateError.message);
