@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "seed:judge": "npx --yes tsx scripts/seed-judge.ts",
-    "record:demo-video": "tsx scripts/record-demo-video.ts"
+    "record:demo-video": "tsx scripts/record-demo-video.ts",
+    "voiceover:natural": "tsx scripts/generate-natural-voiceover.ts"
   },
   "dependencies": {
     "@google/genai": "^2.12.0",

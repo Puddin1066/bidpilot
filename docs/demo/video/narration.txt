@@ -1,1 +1,31 @@
-Small businesses leave contracts on the table because responding to an RFP takes a proposal department they don't have. BidPilot is that department — operated by AI. Customers pay a fixed fee, and within forty-eight hours get a bid decision, a compliance matrix, and a source-grounded first draft. This is the live product. Pricing is transparent. The sample report shows exactly what a readiness package looks like. A customer signs in, opens their job, and the pipeline has already run. Here is the bid recommendation — scored across multiple factors, with plain-language rationale. Humans approve the go decision; AI does not submit anything for them. Next, the compliance matrix. Every mandatory requirement is listed with a source citation, evidence status, and risk level — so nothing buried in the RFP is missed. Then a grounded first draft. Claims are written from the company's approved evidence. A separate verification pass flags anything unsupported. Every Gemini call is logged immutably — model, tokens, cost, and status — so AI operation is auditable, not a black box. BidPilot turns RFP paperwork into a product small firms can buy — a proposal department they can afford.
+Small firms do the work.
+
+They pave the lots, wire the generators, keep the parks green, move the
+students, keep the clinics open. And then an RFP lands — fifty pages of
+mandatory this, attach that, show up Tuesday or you never existed — and the
+people who could actually deliver the job lose three nights decoding paperwork
+they never wrote.
+
+That is not a market failure in the abstract. That is a neighbor who stops
+bidding. A good company that quietly decides the State is not for them.
+
+BidPilot started from that feeling. Not from a deck. From watching capable
+Rhode Island shops leave money — and dignity — on the table because proposal
+departments are a luxury, and buried requirements are a trap.
+
+So we built a grassroots tool with a simple promise: upload the solicitation,
+and within forty-eight hours an AI-operated pipeline gives you what a proposal
+team would have taken a week to assemble. A clear bid or no-bid. A compliance
+matrix with every mandatory line cited back to the page. A first draft grounded
+in *your* evidence — not invented praise.
+
+You still decide. You still sign. You still own the submission. The machine
+does the midnight archaeology.
+
+This is the live product. Paid packages. Real Gemini agents. An audit trail for
+every call — because if AI is going to run the boring parts of a business, it
+should do it where you can see it.
+
+BidPilot is a small bet that the firms who keep this place running deserve a
+proposal department they can afford — and that the people who do the work
+should get to bid on the work.

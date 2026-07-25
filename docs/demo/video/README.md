@@ -47,3 +47,12 @@ That regenerates the silent MP4 (and an old TTS voiced file). Then run
 3. Confirm the embed in an incognito window.
 
 Hard limit: under **3:00**.
+
+## Natural AI voiceover (Gemini TTS)
+
+```bash
+cd web && npm run voiceover:natural
+# optional: TTS_VOICE=Callirrhoe   # or Aoede, Kore, Charon
+```
+
+Uses Gemini Flash TTS with a documentary-style prompt. Much more natural than macOS `say`.
