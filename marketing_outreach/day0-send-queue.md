@@ -1,8 +1,8 @@
 # Day-0 send queue — copy/paste emails
 
 **From:** your personal address (j.jayround@gmail.com is fine)  
-**Link in every email:** https://bidpilot-three.vercel.app/checkout?product=READINESS_PACKAGE&promo=founding  
-**Sample:** https://bidpilot-three.vercel.app/sample  
+**Link in every email:** https://bidpilotri.com/checkout?product=READINESS_PACKAGE&promo=founding  
+**Sample:** https://bidpilotri.com/sample  
 **Log every send** in `tracker/prospects.csv` the minute you hit send.
 
 Replace `{First}` / emails when you find a better contact. Prefer calling first when only a phone is listed.
@@ -23,8 +23,8 @@ These NBC packages usually bury insurance and MBE participation forms — miss o
 
 I run BidPilot. For $199 flat (founding price) we turn the RFQ into a compliance matrix with page citations, a bid/no-bid call, and a grounded first draft in 48 hours. If we miss a mandatory requirement, it's free.
 
-Founding checkout: https://bidpilot-three.vercel.app/checkout?product=READINESS_PACKAGE&promo=founding
-Sample report: https://bidpilot-three.vercel.app/sample
+Founding checkout: https://bidpilotri.com/checkout?product=READINESS_PACKAGE&promo=founding
+Sample report: https://bidpilotri.com/sample
 
 15 minutes this afternoon?
 
@@ -46,7 +46,7 @@ RI DOA RFP26006796 (Auditing Services — Tobacco Settlement Financing Corporati
 Trip-wire on these: RI CPA practice permit + the usual mandatory forms. Est. value is only ~$37.5k — easy to under-resource the paperwork and get bounced.
 
 BidPilot founding offer: $199 for a full compliance matrix + bid/no-bid + draft in 48 hours.
-https://bidpilot-three.vercel.app/checkout?product=READINESS_PACKAGE&promo=founding
+https://bidpilotri.com/checkout?product=READINESS_PACKAGE&promo=founding
 
 Worth a look before you spend partner hours decoding the package?
 
@@ -72,7 +72,7 @@ Two live RI generator opportunities that fit shops like {Company}:
 2) Town of Narragansett B27000 — Generator Service Contract (opens Aug 5).
 
 I built BidPilot for owner-run electrical firms that don't have a proposal department. $199 founding price gets you the compliance matrix + bid/no-bid + first draft in 48 hours on whichever one you're chasing.
-https://bidpilot-three.vercel.app/checkout?product=READINESS_PACKAGE&promo=founding
+https://bidpilotri.com/checkout?product=READINESS_PACKAGE&promo=founding
 
 Want me to walk you through it on a 10-minute call?
 
@@ -101,7 +101,7 @@ Rhode Island College just posted Campus Shuttle Services (RFP27006822, ~$480k). 
 One thing that trips carriers: you must be fully registered in Ocean State Procures (W-9 uploaded) before award. Soft registration alone isn't enough.
 
 If {Company} is even considering it, BidPilot will map every mandatory requirement to a checklist with citations and give you an honest bid/no-bid in 48 hours — $199 founding price.
-https://bidpilot-three.vercel.app/checkout?product=READINESS_PACKAGE&promo=founding
+https://bidpilotri.com/checkout?product=READINESS_PACKAGE&promo=founding
 
 John Round
 BidPilot
@@ -119,7 +119,7 @@ RI Dept of Labor and Training RFP26006790 (Occupational and Environmental Health
 
 If you're a plausible bidder, the failure mode is usually a missed mandatory form or insurance endorsement, not clinical quality.
 
-$199 founding readiness package (48 hours): https://bidpilot-three.vercel.app/checkout?product=READINESS_PACKAGE&promo=founding
+$199 founding readiness package (48 hours): https://bidpilotri.com/checkout?product=READINESS_PACKAGE&promo=founding
 
 John Round
 BidPilot
@@ -139,8 +139,8 @@ BidPilot helps RI small firms respond to OSP / municipal RFPs: compliance matrix
 
 We're complementary to APEX counseling — you advise; they still have to produce the matrix and draft between sessions.
 
-Sample: https://bidpilot-three.vercel.app/sample
-Live site: https://bidpilot-three.vercel.app
+Sample: https://bidpilotri.com/sample
+Live site: https://bidpilotri.com
 
 Happy to do a 15-minute walkthrough with you or Ann whenever convenient.
 
@@ -155,7 +155,7 @@ Susan — I'd like to book a short counseling / intro meeting about BidPilot (RF
 
 Could you route me to whoever covers government sales or revenue diversification? I'll also gladly present at a workshop or write a short newsletter blurb at no charge.
 
-Sample: https://bidpilot-three.vercel.app/sample
+Sample: https://bidpilotri.com/sample
 
 John Round
 BidPilot

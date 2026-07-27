@@ -1,8 +1,8 @@
 # Day 0 — Launch & Revenue (next 24 hours)
 
-**Live URL:** https://bidpilot-three.vercel.app  
+**Live URL:** https://bidpilotri.com  
 **Founding checkout (use in every email):**  
-https://bidpilot-three.vercel.app/checkout?product=READINESS_PACKAGE&promo=founding  
+https://bidpilotri.com/checkout?product=READINESS_PACKAGE&promo=founding  
 → **$199** readiness package (list $349)
 
 Product is already deployed with live Stripe + Gemini. The remaining bottleneck is **sales cycle hours you control today**, not more engineering.
@@ -15,7 +15,7 @@ Arms-length revenue requires a **non-demo** customer account paying through **li
 
 | When | Do this | Done? |
 |---|---|---|
-| Now (15 min) | Confirm Stripe Dashboard → Webhooks → endpoint `https://bidpilot-three.vercel.app/api/stripe/webhook` is active; events: `checkout.session.completed`, `charge.refunded`. Restricted key (`rk_live_…`) must allow Checkout Session create. | |
+| Now (15 min) | Confirm Stripe Dashboard → Webhooks → endpoint `https://bidpilotri.com/api/stripe/webhook` is active; events: `checkout.session.completed`, `charge.refunded`. Restricted key (`rk_live_…`) must allow Checkout Session create. | |
 | Now (10 min) | Smoke-test: create a **new** throwaway personal email account (not Roundhouse), sign up on production, start founding checkout, abandon at Stripe card page. Confirm you land on Stripe hosted checkout (not mock banner). | |
 | Next 90 min | **Call** RI APEX (Jeff Brant 401-278-9125 / jeffrey.brant@commerceri.com) and RISBDC (401-874-7232 / susandavis@uri.edu). Scripts in `04-call-scripts.md`. Ask for 2 warm intros today. | |
 | Next 3 hours | Send the 12 emails in `day0-send-queue.md` (copy-paste ready). Log each send in `tracker/prospects.csv`. | |
@@ -42,7 +42,7 @@ Irrigation pre-bid (Jul 21) is **gone** — do not lead with that hook anymore.
 ## Stripe checklist (you must click these)
 
 1. Stripe → Developers → Webhooks → Add endpoint  
-   URL: `https://bidpilot-three.vercel.app/api/stripe/webhook`  
+   URL: `https://bidpilotri.com/api/stripe/webhook`  
    Secret must match Vercel `STRIPE_WEBHOOK_SECRET`
 2. If Checkout create fails with permission errors, replace `rk_live_…` with a standard `sk_live_…` secret key (or widen restricted-key permissions for Checkout Sessions + Products)
 3. After first real payment: confirm job appears on dashboard **and** a `revenue_transactions` row exists with mock=false
